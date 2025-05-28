@@ -1,9 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23C71" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Account" representedClassName="Account" syncable="YES" codeGenerationType="class">
+        <attribute name="initialBalance" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="account" inverseEntity="Transaction"/>
     </entity>
-    <elements>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="44"/>
-    </elements>
+    <entity name="Budget" representedClassName="Budget" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="period" attributeType="String"/>
+        <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="budgets" inverseEntity="Category"/>
+    </entity>
+    <entity name="Category" representedClassName="Category" syncable="YES" codeGenerationType="class">
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+        <relationship name="budgets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Budget" inverseName="category" inverseEntity="Budget"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="category" inverseEntity="Transaction"/>
+    </entity>
+    <entity name="FinancialGoal" representedClassName="FinancialGoal" syncable="YES" codeGenerationType="class">
+        <attribute name="currentAmount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="deadline" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="goalDescription" optional="YES" attributeType="String"/>
+        <attribute name="monthlyContribution" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="targetAmount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+    </entity>
+    <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
+        <attribute name="color" optional="YES" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="transactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="tags" inverseEntity="Transaction"/>
+    </entity>
+    <entity name="Transaction" representedClassName="Transaction" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+        <relationship name="account" maxCount="1" deletionRule="Nullify" destinationEntity="Account" inverseName="transactions" inverseEntity="Account"/>
+        <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="transactions" inverseEntity="Category"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="transactions" inverseEntity="Tag"/>
+    </entity>
 </model>
