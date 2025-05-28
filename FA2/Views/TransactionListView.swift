@@ -94,7 +94,7 @@ struct TransactionListView: View {
                         Text("Expenses")
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        Text(String(format: "%.2f Kč", viewModel.monthlyExpenses()))
+                        Text(String(format: "-%.2f Kč", viewModel.monthlyExpenses()))
                             .foregroundColor(.red)
                     }
                 }
@@ -138,6 +138,11 @@ struct TransactionListView: View {
 struct TransactionRowView: View {
     let transaction: Transaction
     
+    private var formattedAmount: String {
+        let isExpense = transaction.type == Transaction.TransactionType.expense.rawValue
+        return String(format: isExpense ? "-%.2f Kč" : "%.2f Kč", transaction.amount)
+    }
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -151,7 +156,7 @@ struct TransactionRowView: View {
             Spacer()
             
             VStack(alignment: .trailing) {
-                Text(String(format: "%.2f Kč", transaction.amount))
+                Text(formattedAmount)
                     .foregroundColor(transaction.type == Transaction.TransactionType.income.rawValue ? .green : .red)
                 Text(transaction.wrappedDate.formatted(date: .abbreviated, time: .omitted))
                     .font(.caption)
